@@ -1,4 +1,4 @@
-# 智能代理回复系统 — 技术方案
+# WeChat Reply Delegation System — Technical Specification
 
 > **Version:** 0.1-draft  
 > **Author:** Hermes Agent  

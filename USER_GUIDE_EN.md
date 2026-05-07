@@ -1,8 +1,8 @@
-# Proxy Reply System - User Guide
+# WeChat Reply Delegation - User Guide
 
 ## Overview
 
-The Proxy Reply System can automatically reply to group messages on WeChat based on configured rules. You can set conditions such as time periods, online status, and keywords to enable the system to reply automatically at the appropriate time.
+The WeChat Reply Delegation system can automatically reply to group messages on WeChat based on configured rules. You can set conditions such as time periods, online status, and keywords to enable the system to reply automatically at the appropriate time.
 
 ## Installation Steps
 

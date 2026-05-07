@@ -16,7 +16,7 @@ setup(
             "wechat-reply-delegation = plugin:ProxyReplyPlugin",
         ],
         "console_scripts": [
-            "hermes-wechat-reply-web = web.app:run",
+            "hermes-wechat-reply-delegation-web = web.app:run",
         ]
     },
     author="Hermes Agent",

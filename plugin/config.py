@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 class ConfigManager:
-    CONFIG_PATH = "~/.hermes/proxy/config.yaml"
+    CONFIG_PATH = "~/.hermes/wechat-reply-delegation/config.yaml"
     
     def __init__(self):
         self.config = {}

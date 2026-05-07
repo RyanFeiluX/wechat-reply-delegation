@@ -6,12 +6,20 @@ from flask_cors import CORS
 from plugin.config import ConfigManager
 
 app = Flask(__name__)
-app.secret_key = os.environ.get('PROXY_REPLY_SECRET_KEY', 'hermes-proxy-secret-key')
+app.secret_key = os.environ.get('WECHAT_REPLY_DELEGATION_SECRET_KEY', 'hermes-wechat-reply-delegation-secret-key')
 CORS(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+LANGUAGES = {
+    'zh': '中文',
+    'en': 'English'
+}
+
+def get_locale():
+    return session.get('language', 'zh')
 
 config_manager = ConfigManager()
 
@@ -45,6 +53,12 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/set_language/<lang>')
+def set_language(lang):
+    if lang in LANGUAGES:
+        session['language'] = lang
+    return redirect(request.referrer or url_for('login'))
 
 @app.route('/')
 @login_required

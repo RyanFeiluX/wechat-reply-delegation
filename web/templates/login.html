@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="{{ session.get('language', 'zh') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能代理回复系统 - 登录</title>
+    <title>{% if session.get('language') == 'en' %}WeChat Reply Delegation - Login{% else %}WeChat Reply Delegation - 登录{% endif %}</title>
     <style>
         * {
             margin: 0;
@@ -85,33 +85,57 @@
             margin-bottom: 16px;
             text-align: center;
         }
+        .language-selector {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            padding: 6px 16px;
+            margin: 0 4px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <div class="language-selector">
+            <a href="/set_language/zh" class="lang-btn {% if session.get('language') == 'zh' or not session.get('language') %}active{% endif %}">中文</a>
+            <a href="/set_language/en" class="lang-btn {% if session.get('language') == 'en' %}active{% endif %}">English</a>
+        </div>
+        
         <div class="logo">
-            <h1>🤖 智能代理回复系统</h1>
-            <p>Proxy Reply System</p>
+            <h1>🤖 WeChat Reply Delegation</h1>
+            <p>{% if session.get('language') == 'en' %}WeChat Group Reply Automation{% else %}微信群聊自动回复系统{% endif %}</p>
         </div>
         
         {% if request.method == 'POST' %}
-        <div class="error">用户名或密码错误</div>
+        <div class="error">{% if session.get('language') == 'en' %}Invalid username or password{% else %}用户名或密码错误{% endif %}</div>
         {% endif %}
         
         <form method="POST">
             <div class="form-group">
-                <label for="username">用户名</label>
-                <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                <label for="username">{% if session.get('language') == 'en' %}Username{% else %}用户名{% endif %}</label>
+                <input type="text" id="username" name="username" placeholder="{% if session.get('language') == 'en' %}Enter username{% else %}请输入用户名{% endif %}" required>
             </div>
             <div class="form-group">
-                <label for="password">密码</label>
-                <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                <label for="password">{% if session.get('language') == 'en' %}Password{% else %}密码{% endif %}</label>
+                <input type="password" id="password" name="password" placeholder="{% if session.get('language') == 'en' %}Enter password{% else %}请输入密码{% endif %}" required>
             </div>
-            <button type="submit" class="btn">登录</button>
+            <button type="submit" class="btn">{% if session.get('language') == 'en' %}Login{% else %}登录{% endif %}</button>
         </form>
         
         <div style="margin-top: 16px; text-align: center; color: #999; font-size: 12px;">
-            默认账号: admin / password123
+            {% if session.get('language') == 'en' %}Default: admin / password123{% else %}默认账号: admin / password123{% endif %}
         </div>
     </div>
 </body>

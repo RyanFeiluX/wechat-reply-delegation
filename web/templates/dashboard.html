@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="{{ session.get('language', 'zh') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能代理回复系统 - 管理面板</title>
+    <title>{% if session.get('language') == 'en' %}WeChat Reply Delegation - Management Panel{% else %}WeChat Reply Delegation - 管理面板{% endif %}</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
     <style>
         * {
@@ -29,7 +29,12 @@
             font-size: 22px;
             font-weight: 600;
         }
-        .header a {
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header a, .lang-switch a {
             color: white;
             text-decoration: none;
             padding: 8px 16px;
@@ -38,7 +43,18 @@
             font-size: 14px;
             transition: background 0.3s;
         }
-        .header a:hover {
+        .header a:hover, .lang-switch a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+        }
+        .lang-switch a {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+        .lang-switch a.active {
             background: rgba(255, 255, 255, 0.3);
         }
         .container {
@@ -317,33 +333,39 @@
 <body>
     <div id="app">
         <div class="header">
-            <h1>🤖 智能代理回复系统</h1>
-            <a href="/logout">退出登录</a>
+            <h1>🤖 WeChat Reply Delegation</h1>
+            <div class="header-right">
+                <div class="lang-switch">
+                    <a href="/set_language/zh" :class="{ active: currentLocale === 'zh' }">中文</a>
+                    <a href="/set_language/en" :class="{ active: currentLocale === 'en' }">English</a>
+                </div>
+                <a href="/logout">{{ t('logout') }}</a>
+            </div>
         </div>
         
         <div class="container">
             <div class="tabs">
-                <button class="tab" :class="{ active: activeTab === 'global' }" @click="activeTab = 'global'">全局配置</button>
-                <button class="tab" :class="{ active: activeTab === 'groups' }" @click="activeTab = 'groups'">群配置管理</button>
+                <button class="tab" :class="{ active: activeTab === 'global' }" @click="activeTab = 'global'">{{ t('global_config') }}</button>
+                <button class="tab" :class="{ active: activeTab === 'groups' }" @click="activeTab = 'groups'">{{ t('group_management') }}</button>
             </div>
             
             <div v-if="activeTab === 'global'">
                 <div class="card">
                     <div class="card-header">
-                        <h2>全局设置</h2>
-                        <button class="btn btn-primary" @click="saveGlobal">保存配置</button>
+                        <h2>{{ t('global_settings') }}</h2>
+                        <button class="btn btn-primary" @click="saveGlobal">{{ t('save_config') }}</button>
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>系统启用</label>
+                            <label>{{ t('system_enabled') }}</label>
                             <input type="checkbox" v-model="globalConfig.enabled">
                         </div>
                         <div class="form-group">
-                            <label>时区</label>
+                            <label>{{ t('timezone') }}</label>
                             <input type="text" v-model="globalConfig.timezone" placeholder="Asia/Shanghai">
                         </div>
                         <div class="form-group">
-                            <label>日志级别</label>
+                            <label>{{ t('log_level') }}</label>
                             <select v-model="globalConfig.log_level">
                                 <option value="debug">debug</option>
                                 <option value="info">info</option>
@@ -353,42 +375,42 @@
                         </div>
                     </div>
                     
-                    <h3 style="margin: 20px 0 16px; color: #333;">代理回复标记</h3>
+                    <h3 style="margin: 20px 0 16px; color: #333;">{{ t('proxy_marker') }}</h3>
                     <div class="form-grid">
                         <div class="form-group checkbox">
                             <input type="checkbox" v-model="globalConfig.proxy_marker.prefix_enabled">
-                            <label>启用前缀</label>
+                            <label>{{ t('enable_prefix') }}</label>
                         </div>
                         <div class="form-group">
-                            <label>中文前缀</label>
+                            <label>{{ t('chinese_prefix') }}</label>
                             <input type="text" v-model="globalConfig.proxy_marker.prefix_text" placeholder="🤖 [代班]">
                         </div>
                         <div class="form-group">
-                            <label>英文前缀</label>
+                            <label>{{ t('english_prefix') }}</label>
                             <input type="text" v-model="globalConfig.proxy_marker.prefix_text_en" placeholder="🤖 [Proxy]">
                         </div>
                         <div class="form-group checkbox">
                             <input type="checkbox" v-model="globalConfig.proxy_marker.signature_enabled">
-                            <label>启用签名</label>
+                            <label>{{ t('enable_signature') }}</label>
                         </div>
                         <div class="form-group">
-                            <label>中文签名</label>
+                            <label>{{ t('chinese_signature') }}</label>
                             <input type="text" v-model="globalConfig.proxy_marker.signature_text">
                         </div>
                         <div class="form-group">
-                            <label>英文签名</label>
+                            <label>{{ t('english_signature') }}</label>
                             <input type="text" v-model="globalConfig.proxy_marker.signature_text_en">
                         </div>
                     </div>
                     
-                    <h3 style="margin: 20px 0 16px; color: #333;">默认回复</h3>
+                    <h3 style="margin: 20px 0 16px; color: #333;">{{ t('default_reply') }}</h3>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>中文默认回复</label>
+                            <label>{{ t('chinese_default') }}</label>
                             <textarea v-model="globalConfig.default_reply"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>英文默认回复</label>
+                            <label>{{ t('english_default') }}</label>
                             <textarea v-model="globalConfig.default_reply_en"></textarea>
                         </div>
                     </div>
@@ -402,33 +424,33 @@
             <div v-if="activeTab === 'groups'">
                 <div class="card">
                     <div class="card-header">
-                        <h2>群列表</h2>
-                        <button class="btn btn-primary" @click="showAddModal = true">添加群配置</button>
+                        <h2>{{ t('group_list') }}</h2>
+                        <button class="btn btn-primary" @click="showAddModal = true">{{ t('add_group') }}</button>
                     </div>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>群名称</th>
-                                <th>状态</th>
-                                <th>回复时机</th>
-                                <th>关键词数量</th>
-                                <th>操作</th>
+                                <th>{{ t('group_name') }}</th>
+                                <th>{{ t('status') }}</th>
+                                <th>{{ t('reply_when') }}</th>
+                                <th>{{ t('keyword_count') }}</th>
+                                <th>{{ t('actions') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(config, groupId) in groups" :key="groupId">
-                                <td>{{ config.display_name || groupId }}</td>
+                                <td>{{ config.display_name || config.display_name_en || groupId }}</td>
                                 <td>
                                     <span class="badge" :class="config.enabled ? 'enabled' : 'disabled'">
-                                        {{ config.enabled ? '已启用' : '已禁用' }}
+                                        {{ config.enabled ? t('enabled') : t('disabled') }}
                                     </span>
                                 </td>
                                 <td>{{ getReplyWhenLabel(config.online_status?.reply_when) }}</td>
                                 <td>{{ config.triggers?.keywords?.length || 0 }}</td>
                                 <td>
                                     <div class="actions">
-                                        <button class="btn btn-secondary" @click="editGroup(groupId)">编辑</button>
-                                        <button class="btn btn-danger" @click="deleteGroupConfirm(groupId)">删除</button>
+                                        <button class="btn btn-secondary" @click="editGroup(groupId)">{{ t('edit') }}</button>
+                                        <button class="btn btn-danger" @click="deleteGroupConfirm(groupId)">{{ t('delete') }}</button>
                                     </div>
                                 </td>
                             </tr>
@@ -441,78 +463,78 @@
         <div v-if="showAddModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal">
                 <div class="modal-header">
-                    <h3>{{ editingGroup ? '编辑群配置' : '添加群配置' }}</h3>
+                    <h3>{{ editingGroup ? t('edit_group') : t('add_group') }}</h3>
                     <button @click="closeModal">×</button>
                 </div>
                 
                 <div class="form-group">
-                    <label>群 ID</label>
-                    <input type="text" v-model="newGroup.group_id" :disabled="!!editingGroup" placeholder="请输入群 ID">
+                    <label>{{ t('group_id') }}</label>
+                    <input type="text" v-model="newGroup.group_id" :disabled="!!editingGroup" :placeholder="t('enter_group_id')">
                 </div>
                 
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>显示名称（中文）</label>
-                        <input type="text" v-model="newGroup.display_name" placeholder="群显示名称">
+                        <label>{{ t('display_name_cn') }}</label>
+                        <input type="text" v-model="newGroup.display_name" :placeholder="t('group_display_name')">
                     </div>
                     <div class="form-group">
-                        <label>显示名称（英文）</label>
+                        <label>{{ t('display_name_en') }}</label>
                         <input type="text" v-model="newGroup.display_name_en" placeholder="Display Name">
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" v-model="newGroup.enabled">
-                        <label>启用代理回复</label>
+                        <label>{{ t('enable_proxy') }}</label>
                     </div>
                 </div>
                 
-                <h3 style="margin: 20px 0 16px; color: #333;">在线状态规则</h3>
+                <h3 style="margin: 20px 0 16px; color: #333;">{{ t('online_status_rules') }}</h3>
                 <div class="form-group">
-                    <label>回复时机</label>
+                    <label>{{ t('reply_when') }}</label>
                     <select v-model="newGroup.online_status.reply_when">
-                        <option value="always">始终回复</option>
-                        <option value="online_only">仅在线时</option>
-                        <option value="offline_only">仅离线时</option>
+                        <option value="always">{{ t('always') }}</option>
+                        <option value="online_only">{{ t('online_only') }}</option>
+                        <option value="offline_only">{{ t('offline_only') }}</option>
                     </select>
                 </div>
                 
-                <h3 style="margin: 20px 0 16px; color: #333;">触发条件</h3>
+                <h3 style="margin: 20px 0 16px; color: #333;">{{ t('triggers') }}</h3>
                 <div class="form-grid">
                     <div class="form-group checkbox">
                         <input type="checkbox" v-model="newGroup.triggers.at_mention">
-                        <label>需要 @提及</label>
+                        <label>{{ t('require_mention') }}</label>
                     </div>
                     <div class="form-group checkbox">
                         <input type="checkbox" v-model="newGroup.triggers.at_all">
-                        <label>响应 @所有人</label>
+                        <label>{{ t('respond_all') }}</label>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>触发关键词（每行一个）</label>
-                    <textarea v-model="keywordInput" placeholder="输入关键词，每行一个"></textarea>
+                    <label>{{ t('trigger_keywords') }}</label>
+                    <textarea v-model="keywordInput" :placeholder="t('enter_keywords')"></textarea>
                 </div>
                 
-                <h3 style="margin: 20px 0 16px; color: #333;">时间段规则</h3>
+                <h3 style="margin: 20px 0 16px; color: #333;">{{ t('schedule_rules') }}</h3>
                 <div class="form-group checkbox">
                     <input type="checkbox" v-model="newGroup.schedule.enabled">
-                    <label>启用时间段限制</label>
+                    <label>{{ t('enable_schedule') }}</label>
                 </div>
                 
                 <div v-if="newGroup.schedule.enabled">
-                    <button class="btn btn-secondary" style="margin-bottom: 12px;" @click="addTimeRange">添加时间段</button>
+                    <button class="btn btn-secondary" style="margin-bottom: 12px;" @click="addTimeRange">{{ t('add_time_range') }}</button>
                     <div v-for="(range, idx) in newGroup.schedule.time_ranges" :key="idx" class="range-item">
                         <div style="flex: 1;">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>星期</label>
+                                    <label>{{ t('weekdays') }}</label>
                                     <input type="text" v-model="range.days" placeholder="mon,tue,wed">
                                 </div>
                                 <div class="form-group">
-                                    <label>开始时间</label>
+                                    <label>{{ t('start_time') }}</label>
                                     <input type="time" v-model="range.start">
                                 </div>
                                 <div class="form-group">
-                                    <label>结束时间</label>
+                                    <label>{{ t('end_time') }}</label>
                                     <input type="time" v-model="range.end">
                                 </div>
                             </div>
@@ -521,35 +543,35 @@
                     </div>
                 </div>
                 
-                <h3 style="margin: 20px 0 16px; color: #333;">回复指令</h3>
+                <h3 style="margin: 20px 0 16px; color: #333;">{{ t('reply_instructions') }}</h3>
                 <div class="language-tabs">
                     <button class="lang-tab" :class="{ active: currentLang === 'zh' }" @click="currentLang = 'zh'">中文</button>
                     <button class="lang-tab" :class="{ active: currentLang === 'en' }" @click="currentLang = 'en'">English</button>
                 </div>
                 
                 <div class="form-group">
-                    <label>{{ currentLang === 'zh' ? '默认回复' : 'Default Reply' }}</label>
+                    <label>{{ currentLang === 'zh' ? t('default_reply') : 'Default Reply' }}</label>
                     <textarea v-model="currentLang === 'zh' ? newGroup.instructions.default : newGroup.instructions.default_en"></textarea>
                 </div>
                 
-                <h4 style="margin: 16px 0 12px; color: #555;">话题特定回复</h4>
-                <button class="btn btn-secondary" style="margin-bottom: 12px;" @click="addTopicResponse">添加话题回复</button>
+                <h4 style="margin: 16px 0 12px; color: #555;">{{ t('topic_responses') }}</h4>
+                <button class="btn btn-secondary" style="margin-bottom: 12px;" @click="addTopicResponse">{{ t('add_topic') }}</button>
                 
                 <div v-for="(response, idx) in newGroup.instructions.topic_responses" :key="idx" class="response-item">
                     <div class="form-group">
-                        <label>关键词（用逗号分隔）</label>
-                        <input type="text" v-model="response.keywords_str" placeholder="关键词1,关键词2">
+                        <label>{{ t('keywords') }}</label>
+                        <input type="text" v-model="response.keywords_str" :placeholder="t('enter_keywords_comma')">
                     </div>
                     <div class="form-group">
-                        <label>{{ currentLang === 'zh' ? '回复内容' : 'Response' }}</label>
+                        <label>{{ currentLang === 'zh' ? t('response_content') : 'Response' }}</label>
                         <textarea v-model="currentLang === 'zh' ? response.response : response.response_en"></textarea>
                     </div>
-                    <button class="btn btn-danger" @click="removeTopicResponse(idx)">删除</button>
+                    <button class="btn btn-danger" @click="removeTopicResponse(idx)">{{ t('delete') }}</button>
                 </div>
                 
                 <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <button class="btn btn-secondary" @click="closeModal">取消</button>
-                    <button class="btn btn-primary" @click="saveGroup">{{ editingGroup ? '保存修改' : '添加群配置' }}</button>
+                    <button class="btn btn-secondary" @click="closeModal">{{ t('cancel') }}</button>
+                    <button class="btn btn-primary" @click="saveGroup">{{ editingGroup ? t('save_changes') : t('add_group') }}</button>
                 </div>
                 
                 <div v-if="groupSaveStatus" class="save-status" :class="groupSaveStatus.type">
@@ -562,6 +584,143 @@
     <script>
         const { createApp } = Vue;
         
+        const translations = {
+            zh: {
+                logout: '退出登录',
+                global_config: '全局配置',
+                group_management: '群配置管理',
+                global_settings: '全局设置',
+                save_config: '保存配置',
+                system_enabled: '系统启用',
+                timezone: '时区',
+                log_level: '日志级别',
+                proxy_marker: '代理回复标记',
+                enable_prefix: '启用前缀',
+                chinese_prefix: '中文前缀',
+                english_prefix: '英文前缀',
+                enable_signature: '启用签名',
+                chinese_signature: '中文签名',
+                english_signature: '英文签名',
+                default_reply: '默认回复',
+                chinese_default: '中文默认回复',
+                english_default: '英文默认回复',
+                group_list: '群列表',
+                add_group: '添加群配置',
+                group_name: '群名称',
+                status: '状态',
+                reply_when: '回复时机',
+                keyword_count: '关键词数量',
+                actions: '操作',
+                enabled: '已启用',
+                disabled: '已禁用',
+                edit: '编辑',
+                delete: '删除',
+                edit_group: '编辑群配置',
+                group_id: '群 ID',
+                enter_group_id: '请输入群 ID',
+                display_name_cn: '显示名称（中文）',
+                display_name_en: '显示名称（英文）',
+                group_display_name: '群显示名称',
+                enable_proxy: '启用代理回复',
+                online_status_rules: '在线状态规则',
+                always: '始终回复',
+                online_only: '仅在线时',
+                offline_only: '仅离线时',
+                triggers: '触发条件',
+                require_mention: '需要 @提及',
+                respond_all: '响应 @所有人',
+                trigger_keywords: '触发关键词（每行一个）',
+                enter_keywords: '输入关键词，每行一个',
+                schedule_rules: '时间段规则',
+                enable_schedule: '启用时间段限制',
+                add_time_range: '添加时间段',
+                weekdays: '星期',
+                start_time: '开始时间',
+                end_time: '结束时间',
+                reply_instructions: '回复指令',
+                topic_responses: '话题特定回复',
+                add_topic: '添加话题回复',
+                keywords: '关键词（用逗号分隔）',
+                enter_keywords_comma: '关键词1,关键词2',
+                response_content: '回复内容',
+                cancel: '取消',
+                save_changes: '保存修改',
+                config_saved: '配置保存成功',
+                save_failed: '保存失败',
+                delete_confirm: '确定要删除这个群的配置吗？',
+                delete_success: '删除成功',
+                add_success: '添加成功',
+                update_success: '修改成功'
+            },
+            en: {
+                logout: 'Logout',
+                global_config: 'Global Config',
+                group_management: 'Group Management',
+                global_settings: 'Global Settings',
+                save_config: 'Save Config',
+                system_enabled: 'System Enabled',
+                timezone: 'Timezone',
+                log_level: 'Log Level',
+                proxy_marker: 'Proxy Marker',
+                enable_prefix: 'Enable Prefix',
+                chinese_prefix: 'Chinese Prefix',
+                english_prefix: 'English Prefix',
+                enable_signature: 'Enable Signature',
+                chinese_signature: 'Chinese Signature',
+                english_signature: 'English Signature',
+                default_reply: 'Default Reply',
+                chinese_default: 'Chinese Default Reply',
+                english_default: 'English Default Reply',
+                group_list: 'Group List',
+                add_group: 'Add Group',
+                group_name: 'Group Name',
+                status: 'Status',
+                reply_when: 'Reply When',
+                keyword_count: 'Keyword Count',
+                actions: 'Actions',
+                enabled: 'Enabled',
+                disabled: 'Disabled',
+                edit: 'Edit',
+                delete: 'Delete',
+                edit_group: 'Edit Group',
+                group_id: 'Group ID',
+                enter_group_id: 'Enter Group ID',
+                display_name_cn: 'Display Name (CN)',
+                display_name_en: 'Display Name (EN)',
+                group_display_name: 'Group Display Name',
+                enable_proxy: 'Enable Proxy Reply',
+                online_status_rules: 'Online Status Rules',
+                always: 'Always',
+                online_only: 'Online Only',
+                offline_only: 'Offline Only',
+                triggers: 'Triggers',
+                require_mention: 'Require @Mention',
+                respond_all: 'Respond to @All',
+                trigger_keywords: 'Trigger Keywords (one per line)',
+                enter_keywords: 'Enter keywords, one per line',
+                schedule_rules: 'Schedule Rules',
+                enable_schedule: 'Enable Schedule',
+                add_time_range: 'Add Time Range',
+                weekdays: 'Weekdays',
+                start_time: 'Start Time',
+                end_time: 'End Time',
+                reply_instructions: 'Reply Instructions',
+                topic_responses: 'Topic Responses',
+                add_topic: 'Add Topic',
+                keywords: 'Keywords (comma separated)',
+                enter_keywords_comma: 'keyword1,keyword2',
+                response_content: 'Response',
+                cancel: 'Cancel',
+                save_changes: 'Save Changes',
+                config_saved: 'Config saved successfully',
+                save_failed: 'Save failed',
+                delete_confirm: 'Are you sure you want to delete this group?',
+                delete_success: 'Deleted successfully',
+                add_success: 'Added successfully',
+                update_success: 'Updated successfully'
+            }
+        };
+        
         createApp({
             data() {
                 return {
@@ -571,6 +730,7 @@
                     showAddModal: false,
                     editingGroup: null,
                     currentLang: 'zh',
+                    currentLocale: '{{ session.get("language", "zh") }}',
                     keywordInput: '',
                     newGroup: {
                         group_id: '',
@@ -604,6 +764,10 @@
                 this.loadConfig();
             },
             methods: {
+                t(key) {
+                    const lang = this.currentLocale;
+                    return translations[lang] && translations[lang][key] ? translations[lang][key] : key;
+                },
                 async loadConfig() {
                     const response = await fetch('/api/config');
                     const data = await response.json();
@@ -619,7 +783,7 @@
                     const result = await response.json();
                     this.globalSaveStatus = {
                         type: result.status === 'success' ? 'success' : 'error',
-                        message: result.status === 'success' ? '配置保存成功' : '保存失败'
+                        message: result.status === 'success' ? this.t('config_saved') : this.t('save_failed')
                     };
                     setTimeout(() => { this.globalSaveStatus = null; }, 3000);
                 },
@@ -637,7 +801,7 @@
                     this.showAddModal = true;
                 },
                 deleteGroupConfirm(groupId) {
-                    if (confirm('确定要删除这个群的配置吗？')) {
+                    if (confirm(this.t('delete_confirm'))) {
                         this.deleteGroup(groupId);
                     }
                 },
@@ -723,8 +887,8 @@
                     this.groupSaveStatus = {
                         type: result.status === 'success' ? 'success' : 'error',
                         message: result.status === 'success' 
-                            ? (this.editingGroup ? '修改成功' : '添加成功') 
-                            : result.error || '保存失败'
+                            ? (this.editingGroup ? this.t('update_success') : this.t('add_success')) 
+                            : result.error || this.t('save_failed')
                     };
                     
                     if (result.status === 'success') {
@@ -734,9 +898,9 @@
                 },
                 getReplyWhenLabel(value) {
                     const labels = {
-                        'always': '始终',
-                        'online_only': '仅在线',
-                        'offline_only': '仅离线'
+                        'always': this.t('always'),
+                        'online_only': this.t('online_only'),
+                        'offline_only': this.t('offline_only')
                     };
                     return labels[value] || value;
                 }
