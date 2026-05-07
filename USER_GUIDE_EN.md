@@ -160,6 +160,47 @@ Send the following commands in group chat to manage proxy replies:
 | `/proxy config` | View current group configuration |
 | `/proxy reload` | Hot reload configuration |
 
+## Web Management Panel
+
+Manage configurations through a visual interface for easier operation.
+
+### Start Command
+
+```bash
+# Ensure dependencies are installed
+pip install .
+
+# Start web service
+hermes-proxy-web
+```
+
+### Access URL
+
+- Default address: `http://localhost:5100`
+- Custom port via environment variable: `PROXY_REPLY_PORT`
+
+### Default Credentials
+
+- Username: `admin`
+- Password: `password123`
+
+### Features
+
+- **Global Configuration**: System status, timezone, log level, proxy markers
+- **Group Management**: Add, edit, and delete group configurations
+- **Online Status Rules**: Set reply timing (always/online_only/offline_only)
+- **Trigger Conditions**: @mention, @all, keyword configuration
+- **Schedule Rules**: Multiple time periods support
+- **Response Management**: Default replies, topic-specific responses
+- **Multi-language Support**: Chinese and English configuration
+
+### Security Tips
+
+1. **Change Default Password**: Recommend changing the default password after first login
+2. **HTTPS Access**: Configure HTTPS for production environments
+3. **Port Security**: Only expose port in trusted network environments
+4. **Session Security**: Log out after completing operations
+
 ## Usage Examples
 
 ### Scenario 1: Work Hours Proxy
