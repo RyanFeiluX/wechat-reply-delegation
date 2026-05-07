@@ -1,0 +1,99 @@
+enabled: true
+timezone: "Asia/Shanghai"
+
+online_status:
+  mode: hybrid
+  passive:
+    inactivity_timeout_minutes: 30
+    source: last_message
+  manual:
+    webhook: true
+    slash_commands: true
+
+proxy_marker:
+  prefix_enabled: true
+  prefix_text: "🤖 [代班] "
+  prefix_text_en: "🤖 [Proxy] "
+  signature_enabled: false
+  signature_text: ""
+  signature_text_en: ""
+
+default_reply: "您好，用户暂时不在，他看到消息后会尽快回复您 🙏"
+default_reply_en: "Hello, the user is unavailable. They will reply when they see your message."
+log_level: info
+
+groups:
+  "业主群_12345@chatroom":
+    enabled: true
+    display_name: "小区业主群"
+    display_name_en: "Residents Group"
+    schedule:
+      enabled: true
+      time_ranges:
+        - days: [mon, tue, wed, thu, fri]
+          start: "09:00"
+          end: "18:00"
+        - days: [sat, sun]
+          start: "10:00"
+          end: "16:00"
+    online_status:
+      reply_when: offline_only
+    triggers:
+      at_mention: true
+      keywords:
+        - "物业"
+        - "maintenance"
+        - "维修"
+        - "通知"
+        - "业委会"
+      at_all: false
+    instructions:
+      default: "您好，我是智能助手。用户暂时不在，我会记录您的消息并转达给他。"
+      default_en: "Hello, I'm an AI assistant. The user is unavailable, but I'll relay your message."
+      topic_responses:
+        - keywords: ["维修", "漏水", "电路", "repair", "leak"]
+          response: "收到维修报修信息，我已记录下来，会转告用户尽快跟进处理。"
+          response_en: "Maintenance request received. I've recorded it and will notify the user."
+        - keywords: ["物业费", "缴费", "fee", "payment"]
+          response: "关于物业费的问题，请直接联系物业管理处咨询。"
+          response_en: "For property fee questions, please contact the property management office directly."
+      compound:
+        - if_all: ["紧急", "物业", "urgent"]
+          response: "紧急物业问题！我已立即通知用户，他会尽快处理。"
+          response_en: "Urgent property issue! I've immediately notified the user."
+
+  "工作群_67890@chatroom":
+    enabled: true
+    display_name: "技术部工作群"
+    display_name_en: "Tech Department Group"
+    schedule:
+      enabled: true
+      time_ranges:
+        - days: [mon, tue, wed, thu, fri]
+          start: "09:00"
+          end: "12:00"
+        - days: [mon, tue, wed, thu, fri]
+          start: "14:00"
+          end: "18:00"
+    online_status:
+      reply_when: offline_only
+    triggers:
+      at_mention: true
+      keywords:
+        - "API"
+        - "接口"
+        - "上线"
+        - "故障"
+        - "bug"
+        - "紧急"
+        - "emergency"
+    instructions:
+      default: "用户暂时不在，我会将消息转告他。"
+      default_en: "User is unavailable. I'll relay your message."
+      topic_responses:
+        - keywords: ["故障", "bug", "紧急", "emergency"]
+          response: "收到故障报告，已紧急通知用户！"
+          response_en: "Incident reported! User notified immediately!"
+        - keywords: ["API", "接口文档", "documentation"]
+          response: "相关 API 文档在这里：[链接]"
+          response_en: "API documentation is here: [link]"
