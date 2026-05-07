@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能代理回复系统 - 管理面板</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .header a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .container {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .tab {
+            padding: 10px 24px;
+            background: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        .card-header h2 {
+            font-size: 18px;
+            color: #333;
+        }
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-danger {
+            background: #e53935;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c62828;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-group.checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-group.checkbox input {
+            width: auto;
+        }
+        .form-row {
+            display: flex;
+            gap: 12px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+        }
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .badge.enabled {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        .badge.disabled {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            color: #333;
+        }
+        .modal-header button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .keyword-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .keyword-tag button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+        }
+        .language-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .lang-tab {
+            padding: 6px 16px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .lang-tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .range-item {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .range-item .btn-danger {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .response-item {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .save-status {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .save-status.success {
+            background: #c8e6c9;
+            color: #2e7d32;
+        }
+        .save-status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>🤖 智能代理回复系统</h1>
+            <a href="/logout">退出登录</a>
+        </div>
+        
+        <div class="container">
+            <div class="tabs">
+                <button class="tab" :class="{ active: activeTab === 'global' }" @click="activeTab = 'global'">全局配置</button>
+                <button class="tab" :class="{ active: activeTab === 'groups' }" @click="activeTab = 'groups'">群配置管理</button>
+            </div>
+            
+            <div v-if="activeTab === 'global'">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>全局设置</h2>
+                        <button class="btn btn-primary" @click="saveGlobal">保存配置</button>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>系统启用</label>
+                            <input type="checkbox" v-model="globalConfig.enabled">
+                        </div>
+                        <div class="form-group">
+                            <label>时区</label>
+                            <input type="text" v-model="globalConfig.timezone" placeholder="Asia/Shanghai">
+                        </div>
+                        <div class="form-group">
+                            <label>日志级别</label>
+                            <select v-model="globalConfig.log_level">
+                                <option value="debug">debug</option>
+                                <option value="info">info</option>
+                                <option value="warn">warn</option>
+                                <option value="error">error</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 20px 0 16px; color: #333;">代理回复标记</h3>
+                    <div class="form-grid">
+                        <div class="form-group checkbox">
+                            <input type="checkbox" v-model="globalConfig.proxy_marker.prefix_enabled">
+                            <label>启用前缀</label>
+                        </div>
+                        <div class="form-group">
+                            <label>中文前缀</label>
+                            <input type="text" v-model="globalConfig.proxy_marker.prefix_text" placeholder="🤖 [代班]">
+                        </div>
+                        <div class="form-group">
+                            <label>英文前缀</label>
+                            <input type="text" v-model="globalConfig.proxy_marker.prefix_text_en" placeholder="🤖 [Proxy]">
+                        </div>
+                        <div class="form-group checkbox">
+                            <input type="checkbox" v-model="globalConfig.proxy_marker.signature_enabled">
+                            <label>启用签名</label>
+                        </div>
+                        <div class="form-group">
+                            <label>中文签名</label>
+                            <input type="text" v-model="globalConfig.proxy_marker.signature_text">
+                        </div>
+                        <div class="form-group">
+                            <label>英文签名</label>
+                            <input type="text" v-model="globalConfig.proxy_marker.signature_text_en">
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin: 20px 0 16px; color: #333;">默认回复</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>中文默认回复</label>
+                            <textarea v-model="globalConfig.default_reply"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>英文默认回复</label>
+                            <textarea v-model="globalConfig.default_reply_en"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div v-if="globalSaveStatus" class="save-status" :class="globalSaveStatus.type">
+                        {{ globalSaveStatus.message }}
+                    </div>
+                </div>
+            </div>
+            
+            <div v-if="activeTab === 'groups'">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>群列表</h2>
+                        <button class="btn btn-primary" @click="showAddModal = true">添加群配置</button>
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>群名称</th>
+                                <th>状态</th>
+                                <th>回复时机</th>
+                                <th>关键词数量</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(config, groupId) in groups" :key="groupId">
+                                <td>{{ config.display_name || groupId }}</td>
+                                <td>
+                                    <span class="badge" :class="config.enabled ? 'enabled' : 'disabled'">
+                                        {{ config.enabled ? '已启用' : '已禁用' }}
+                                    </span>
+                                </td>
+                                <td>{{ getReplyWhenLabel(config.online_status?.reply_when) }}</td>
+                                <td>{{ config.triggers?.keywords?.length || 0 }}</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-secondary" @click="editGroup(groupId)">编辑</button>
+                                        <button class="btn btn-danger" @click="deleteGroupConfirm(groupId)">删除</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div v-if="showAddModal" class="modal-overlay" @click.self="closeModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>{{ editingGroup ? '编辑群配置' : '添加群配置' }}</h3>
+                    <button @click="closeModal">×</button>
+                </div>
+                
+                <div class="form-group">
+                    <label>群 ID</label>
+                    <input type="text" v-model="newGroup.group_id" :disabled="!!editingGroup" placeholder="请输入群 ID">
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>显示名称（中文）</label>
+                        <input type="text" v-model="newGroup.display_name" placeholder="群显示名称">
+                    </div>
+                    <div class="form-group">
+                        <label>显示名称（英文）</label>
+                        <input type="text" v-model="newGroup.display_name_en" placeholder="Display Name">
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" v-model="newGroup.enabled">
+                        <label>启用代理回复</label>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 20px 0 16px; color: #333;">在线状态规则</h3>
+                <div class="form-group">
+                    <label>回复时机</label>
+                    <select v-model="newGroup.online_status.reply_when">
+                        <option value="always">始终回复</option>
+                        <option value="online_only">仅在线时</option>
+                        <option value="offline_only">仅离线时</option>
+                    </select>
+                </div>
+                
+                <h3 style="margin: 20px 0 16px; color: #333;">触发条件</h3>
+                <div class="form-grid">
+                    <div class="form-group checkbox">
+                        <input type="checkbox" v-model="newGroup.triggers.at_mention">
+                        <label>需要 @提及</label>
+                    </div>
+                    <div class="form-group checkbox">
+                        <input type="checkbox" v-model="newGroup.triggers.at_all">
+                        <label>响应 @所有人</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>触发关键词（每行一个）</label>
+                    <textarea v-model="keywordInput" placeholder="输入关键词，每行一个"></textarea>
+                </div>
+                
+                <h3 style="margin: 20px 0 16px; color: #333;">时间段规则</h3>
+                <div class="form-group checkbox">
+                    <input type="checkbox" v-model="newGroup.schedule.enabled">
+                    <label>启用时间段限制</label>
+                </div>
+                
+                <div v-if="newGroup.schedule.enabled">
+                    <button class="btn btn-secondary" style="margin-bottom: 12px;" @click="addTimeRange">添加时间段</button>
+                    <div v-for="(range, idx) in newGroup.schedule.time_ranges" :key="idx" class="range-item">
+                        <div style="flex: 1;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>星期</label>
+                                    <input type="text" v-model="range.days" placeholder="mon,tue,wed">
+                                </div>
+                                <div class="form-group">
+                                    <label>开始时间</label>
+                                    <input type="time" v-model="range.start">
+                                </div>
+                                <div class="form-group">
+                                    <label>结束时间</label>
+                                    <input type="time" v-model="range.end">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" @click="removeTimeRange(idx)">×</button>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 20px 0 16px; color: #333;">回复指令</h3>
+                <div class="language-tabs">
+                    <button class="lang-tab" :class="{ active: currentLang === 'zh' }" @click="currentLang = 'zh'">中文</button>
+                    <button class="lang-tab" :class="{ active: currentLang === 'en' }" @click="currentLang = 'en'">English</button>
+                </div>
+                
+                <div class="form-group">
+                    <label>{{ currentLang === 'zh' ? '默认回复' : 'Default Reply' }}</label>
+                    <textarea v-model="currentLang === 'zh' ? newGroup.instructions.default : newGroup.instructions.default_en"></textarea>
+                </div>
+                
+                <h4 style="margin: 16px 0 12px; color: #555;">话题特定回复</h4>
+                <button class="btn btn-secondary" style="margin-bottom: 12px;" @click="addTopicResponse">添加话题回复</button>
+                
+                <div v-for="(response, idx) in newGroup.instructions.topic_responses" :key="idx" class="response-item">
+                    <div class="form-group">
+                        <label>关键词（用逗号分隔）</label>
+                        <input type="text" v-model="response.keywords_str" placeholder="关键词1,关键词2">
+                    </div>
+                    <div class="form-group">
+                        <label>{{ currentLang === 'zh' ? '回复内容' : 'Response' }}</label>
+                        <textarea v-model="currentLang === 'zh' ? response.response : response.response_en"></textarea>
+                    </div>
+                    <button class="btn btn-danger" @click="removeTopicResponse(idx)">删除</button>
+                </div>
+                
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button class="btn btn-secondary" @click="closeModal">取消</button>
+                    <button class="btn btn-primary" @click="saveGroup">{{ editingGroup ? '保存修改' : '添加群配置' }}</button>
+                </div>
+                
+                <div v-if="groupSaveStatus" class="save-status" :class="groupSaveStatus.type">
+                    {{ groupSaveStatus.message }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    activeTab: 'groups',
+                    globalConfig: {},
+                    groups: {},
+                    showAddModal: false,
+                    editingGroup: null,
+                    currentLang: 'zh',
+                    keywordInput: '',
+                    newGroup: {
+                        group_id: '',
+                        display_name: '',
+                        display_name_en: '',
+                        enabled: true,
+                        schedule: {
+                            enabled: false,
+                            time_ranges: []
+                        },
+                        online_status: {
+                            reply_when: 'offline_only'
+                        },
+                        triggers: {
+                            at_mention: true,
+                            keywords: [],
+                            at_all: false
+                        },
+                        instructions: {
+                            default: '您好，用户暂时不在，他看到消息后会尽快回复您。',
+                            default_en: 'Hello, the user is unavailable. They will reply when they see your message.',
+                            topic_responses: [],
+                            compound: []
+                        }
+                    },
+                    globalSaveStatus: null,
+                    groupSaveStatus: null
+                }
+            },
+            mounted() {
+                this.loadConfig();
+            },
+            methods: {
+                async loadConfig() {
+                    const response = await fetch('/api/config');
+                    const data = await response.json();
+                    this.globalConfig = data.global;
+                    this.groups = data.groups;
+                },
+                async saveGlobal() {
+                    const response = await fetch('/api/global', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.globalConfig)
+                    });
+                    const result = await response.json();
+                    this.globalSaveStatus = {
+                        type: result.status === 'success' ? 'success' : 'error',
+                        message: result.status === 'success' ? '配置保存成功' : '保存失败'
+                    };
+                    setTimeout(() => { this.globalSaveStatus = null; }, 3000);
+                },
+                editGroup(groupId) {
+                    const group = this.groups[groupId];
+                    this.editingGroup = groupId;
+                    this.newGroup = JSON.parse(JSON.stringify(group));
+                    this.newGroup.group_id = groupId;
+                    this.keywordInput = (group.triggers?.keywords || []).join('\n');
+                    
+                    this.newGroup.instructions.topic_responses.forEach(r => {
+                        r.keywords_str = (r.keywords || []).join(',');
+                    });
+                    
+                    this.showAddModal = true;
+                },
+                deleteGroupConfirm(groupId) {
+                    if (confirm('确定要删除这个群的配置吗？')) {
+                        this.deleteGroup(groupId);
+                    }
+                },
+                async deleteGroup(groupId) {
+                    const response = await fetch(`/api/groups/${encodeURIComponent(groupId)}`, {
+                        method: 'DELETE'
+                    });
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        delete this.groups[groupId];
+                    }
+                },
+                closeModal() {
+                    this.showAddModal = false;
+                    this.editingGroup = null;
+                    this.newGroup = {
+                        group_id: '',
+                        display_name: '',
+                        display_name_en: '',
+                        enabled: true,
+                        schedule: {
+                            enabled: false,
+                            time_ranges: []
+                        },
+                        online_status: {
+                            reply_when: 'offline_only'
+                        },
+                        triggers: {
+                            at_mention: true,
+                            keywords: [],
+                            at_all: false
+                        },
+                        instructions: {
+                            default: '您好，用户暂时不在，他看到消息后会尽快回复您。',
+                            default_en: 'Hello, the user is unavailable. They will reply when they see your message.',
+                            topic_responses: [],
+                            compound: []
+                        }
+                    };
+                    this.keywordInput = '';
+                    this.groupSaveStatus = null;
+                },
+                addTimeRange() {
+                    this.newGroup.schedule.time_ranges.push({
+                        days: '',
+                        start: '09:00',
+                        end: '18:00'
+                    });
+                },
+                removeTimeRange(idx) {
+                    this.newGroup.schedule.time_ranges.splice(idx, 1);
+                },
+                addTopicResponse() {
+                    this.newGroup.instructions.topic_responses.push({
+                        keywords: [],
+                        keywords_str: '',
+                        response: '',
+                        response_en: ''
+                    });
+                },
+                removeTopicResponse(idx) {
+                    this.newGroup.instructions.topic_responses.splice(idx, 1);
+                },
+                async saveGroup() {
+                    this.newGroup.triggers.keywords = this.keywordInput.split('\n').filter(k => k.trim());
+                    
+                    this.newGroup.instructions.topic_responses.forEach(r => {
+                        r.keywords = r.keywords_str.split(',').map(k => k.trim()).filter(k => k);
+                    });
+                    
+                    const url = this.editingGroup 
+                        ? `/api/groups/${encodeURIComponent(this.editingGroup)}`
+                        : '/api/groups';
+                    const method = this.editingGroup ? 'PUT' : 'POST';
+                    
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(this.newGroup)
+                    });
+                    
+                    const result = await response.json();
+                    this.groupSaveStatus = {
+                        type: result.status === 'success' ? 'success' : 'error',
+                        message: result.status === 'success' 
+                            ? (this.editingGroup ? '修改成功' : '添加成功') 
+                            : result.error || '保存失败'
+                    };
+                    
+                    if (result.status === 'success') {
+                        await this.loadConfig();
+                        setTimeout(() => { this.closeModal(); }, 1500);
+                    }
+                },
+                getReplyWhenLabel(value) {
+                    const labels = {
+                        'always': '始终',
+                        'online_only': '仅在线',
+                        'offline_only': '仅离线'
+                    };
+                    return labels[value] || value;
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
