@@ -19,6 +19,10 @@ setup(
             "hermes-wechat-reply-delegation-web = web.app:run",
         ]
     },
+    package_data={
+        "web": ["templates/*.html"],
+    },
+    include_package_data=True,
     author="Hermes Agent",
     description="WeChat Group Reply Delegation Plugin - Automatically reply to WeChat group messages on behalf of users",
     keywords=["hermes", "wechat", "reply", "delegation", "auto-reply", "group-chat"],

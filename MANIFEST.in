@@ -1,0 +1,4 @@
+include LICENSE
+include README.md
+include config-template.yaml
+recursive-include web/templates *.html

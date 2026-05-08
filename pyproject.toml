@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hermes-wechat-reply-delegation-plugin"
+version = "0.1.0"
+description = "WeChat Group Reply Delegation Plugin - Automatically reply to WeChat group messages on behalf of users"
+authors = [
+  { name = "Hermes Agent" }
+]
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+]
+keywords = ["hermes", "wechat", "reply", "delegation", "auto-reply", "group-chat"]
+dependencies = [
+  "pyyaml",
+  "pytz",
+  "flask",
+  "flask-login",
+  "flask-cors",
+]
+
+[project.scripts]
+hermes-wechat-reply-delegation-web = "web.app:run"
+
+[project.entry-points."hermes.plugins"]
+wechat-reply-delegation = "plugin:ProxyReplyPlugin"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+web = ["templates/*"]
+
+[project.urls]
+"Homepage" = "https://github.com/hermes-agent/wechat-reply-delegation"
