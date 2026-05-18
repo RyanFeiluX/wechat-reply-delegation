@@ -19,7 +19,7 @@ pip install pyyaml pytz
 将插件目录复制到 Hermes Gateway 的插件目录，或使用 pip 安装：
 
 ```bash
-cd d:\src\proxy-reply-system
+cd d:\src\wechat-reply-delegation
 pip install .
 ```
 
@@ -28,13 +28,13 @@ pip install .
 创建配置文件目录并复制配置模板：
 
 ```bash
-mkdir -p ~/.hermes/proxy
-cp config-template.yaml ~/.hermes/proxy/config.yaml
+mkdir -p ~/.hermes/wechat-reply-delegation
+cp config-template.yaml ~/.hermes/wechat-reply-delegation/config.yaml
 ```
 
 ## 配置说明
 
-配置文件位于 `~/.hermes/proxy/config.yaml`，使用文本编辑器打开即可修改。
+配置文件位于 `~/.hermes/wechat-reply-delegation/config.yaml`，使用文本编辑器打开即可修改。
 
 ### 全局配置
 
@@ -171,13 +171,13 @@ groups:
 pip install .
 
 # 启动 Web 服务
-hermes-proxy-web
+hermes-wechat-reply-delegation-web
 ```
 
 ### 访问地址
 
 - 默认地址：`http://localhost:5100`
-- 可通过环境变量 `PROXY_REPLY_PORT` 自定义端口
+- 可通过环境变量 `WECHAT_REPLY_DELEGATION_PORT` 自定义端口
 
 ### 默认账号
 

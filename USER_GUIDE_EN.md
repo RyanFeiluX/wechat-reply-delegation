@@ -19,7 +19,7 @@ pip install pyyaml pytz
 Copy the plugin directory to the Hermes Gateway plugin directory, or install via pip:
 
 ```bash
-cd d:\src\proxy-reply-system
+cd d:\src\wechat-reply-delegation
 pip install .
 ```
 
@@ -28,13 +28,13 @@ pip install .
 Create the configuration directory and copy the template:
 
 ```bash
-mkdir -p ~/.hermes/proxy
-cp config-template.yaml ~/.hermes/proxy/config.yaml
+mkdir -p ~/.hermes/wechat-reply-delegation
+cp config-template.yaml ~/.hermes/wechat-reply-delegation/config.yaml
 ```
 
 ## Configuration Guide
 
-The configuration file is located at `~/.hermes/proxy/config.yaml`. Open it with a text editor to modify.
+The configuration file is located at `~/.hermes/wechat-reply-delegation/config.yaml`. Open it with a text editor to modify.
 
 ### Global Configuration
 
@@ -171,13 +171,13 @@ Manage configurations through a visual interface for easier operation.
 pip install .
 
 # Start web service
-hermes-proxy-web
+hermes-wechat-reply-delegation-web
 ```
 
 ### Access URL
 
 - Default address: `http://localhost:5100`
-- Custom port via environment variable: `PROXY_REPLY_PORT`
+- Custom port via environment variable: `WECHAT_REPLY_DELEGATION_PORT`
 
 ### Default Credentials
 
