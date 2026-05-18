@@ -50,6 +50,41 @@ pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && her
 pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
 ```
 
+### 安装注意事项
+
+**在 Hermes 虚拟环境中安装**
+
+插件必须安装在与 Hermes 相同的 Python 环境中。操作步骤如下：
+
+```bash
+# 步骤 1: 进入 Hermes 主目录
+cd ~/.hermes  # 或 cd /opt/hermes 或 cd ~/hermes
+
+# 步骤 2: 激活 Hermes 虚拟环境
+source venv/bin/activate
+
+# 步骤 3: 安装插件（选择一种方式）
+pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
+# 或者从 GitHub 安装
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+```
+
+**查找 Hermes 虚拟环境**
+
+如果不确定 Hermes 安装位置：
+
+```bash
+# 方法 1: 搜索 Hermes venv
+find /home -name "hermes" -type d 2>/dev/null | grep venv
+
+# 方法 2: 检查常见位置
+ls ~/.hermes/venv/bin/activate 2>/dev/null && echo "Found at ~/.hermes/venv"
+ls /opt/hermes/venv/bin/activate 2>/dev/null && echo "Found at /opt/hermes/venv"
+
+# 方法 3: 查看 hermes-gateway 命令位置
+which hermes-gateway
+```
+
 ## 配置说明
 
 配置文件位于 `~/.hermes/wechat-reply-delegation/config.yaml`，使用文本编辑器打开即可修改。

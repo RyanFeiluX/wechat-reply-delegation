@@ -48,6 +48,41 @@ pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && her
 pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
 ```
 
+### Important Notes About Installation
+
+**Install in Hermes Virtual Environment**
+
+The plugin must be installed in the same Python environment as your Hermes installation. Here's how:
+
+```bash
+# Step 1: Navigate to your Hermes home directory
+cd ~/.hermes  # or cd /opt/hermes or cd ~/hermes
+
+# Step 2: Activate the Hermes virtual environment
+source venv/bin/activate
+
+# Step 3: Install the plugin (choose one method)
+pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
+# OR from GitHub
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+```
+
+**Finding Your Hermes Virtual Environment**
+
+If you're not sure where Hermes is installed:
+
+```bash
+# Option 1: Search for Hermes venv
+find /home -name "hermes" -type d 2>/dev/null | grep venv
+
+# Option 2: Check common locations
+ls ~/.hermes/venv/bin/activate 2>/dev/null && echo "Found at ~/.hermes/venv"
+ls /opt/hermes/venv/bin/activate 2>/dev/null && echo "Found at /opt/hermes/venv"
+
+# Option 3: Check where hermes-gateway command is
+which hermes-gateway
+```
+
 ## Configuration Guide
 
 The configuration file is located at `~/.hermes/wechat-reply-delegation/config.yaml`. Open it with a text editor to modify.

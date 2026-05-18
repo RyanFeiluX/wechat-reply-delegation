@@ -49,10 +49,43 @@ pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main &
 
 ### Quick Start
 
-After installation, the plugin is automatically registered with Hermes. Just:
+**Important**: Install the plugin in the **same Python environment** as your Hermes installation.
 
-1. Enable the plugin in your Hermes Gateway config by adding `wechat-reply-delegation` to the plugins list
-2. Start Hermes Gateway
+```bash
+# Step 1: Navigate to your Hermes home directory
+cd ~/.hermes  # or cd /opt/hermes or cd ~/hermes
+
+# Step 2: Activate the Hermes virtual environment
+source venv/bin/activate
+
+# Step 3: Install the plugin (choose one method)
+pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
+# OR from GitHub
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+
+# Step 4: Enable the plugin in your Hermes Gateway config
+# Add 'wechat-reply-delegation' to the plugins list
+
+# Step 5: Start Hermes Gateway
+hermes-gateway start
+```
+
+### Finding Your Hermes Virtual Environment
+
+If you're not sure where Hermes is installed:
+
+```bash
+# Option 1: Search for Hermes venv
+find /home -name "hermes" -type d 2>/dev/null | grep venv
+
+# Option 2: Check common locations
+ls ~/.hermes/venv/bin/activate 2>/dev/null && echo "Found at ~/.hermes/venv"
+ls /opt/hermes/venv/bin/activate 2>/dev/null && echo "Found at /opt/hermes/venv"
+
+# Option 3: If you use hermes-cli
+which hermes-gateway  # Shows the path to the command
+# If it's /usr/local/bin/hermes-gateway, check for venv nearby
+```
 
 ### Web Dashboard
 
