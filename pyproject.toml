@@ -43,6 +43,7 @@ where = ["."]
 
 [tool.setuptools.package-data]
 web = ["templates/*"]
+plugin = ["config-template.yaml"]
 
 [project.urls]
 "Homepage" = "https://github.com/RyanFeiluX/wechat-reply-delegation"

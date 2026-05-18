@@ -22,6 +22,7 @@ setup(
     },
     package_data={
         "web": ["templates/*.html"],
+        "plugin": ["config-template.yaml"],
     },
     include_package_data=True,
     author="Hermes Agent",

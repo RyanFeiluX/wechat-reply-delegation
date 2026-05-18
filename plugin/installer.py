@@ -26,7 +26,7 @@ def install():
         print(f"❌ Failed to create config directory: {e}")
         return False
     
-    template_path = Path(__file__).parent.parent / TEMPLATE_FILE
+    template_path = Path(__file__).parent / TEMPLATE_FILE
     if template_path.exists():
         try:
             shutil.copy(template_path, config_path)
