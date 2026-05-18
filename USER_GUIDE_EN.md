@@ -11,7 +11,7 @@ The WeChat Reply Delegation system can automatically reply to group messages on 
 Use this single command to install and configure everything automatically:
 
 ```bash
-pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
+python -m pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
 ```
 
 ### Manual Installation
@@ -20,7 +20,7 @@ If you prefer to install step by step:
 
 ```bash
 # Install the package from PyPI
-pip install hermes-wechat-reply-delegation-plugin
+python -m pip install hermes-wechat-reply-delegation-plugin
 
 # Run the installer to set up configuration
 hermes-wechat-reply-delegation-install
@@ -30,7 +30,7 @@ hermes-wechat-reply-delegation-install
 
 ```bash
 cd d:\src\wechat-reply-delegation
-pip install .
+python -m pip install .
 hermes-wechat-reply-delegation-install
 ```
 
@@ -39,13 +39,13 @@ hermes-wechat-reply-delegation-install
 **Single command installation from GitHub:**
 
 ```bash
-pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+python -m pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
 ```
 
 **Install from a specific branch:**
 
 ```bash
-pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
+python -m pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
 ```
 
 ### Important Notes About Installation
@@ -62,9 +62,9 @@ cd ~/.hermes  # or cd /opt/hermes or cd ~/hermes
 source venv/bin/activate
 
 # Step 3: Install the plugin (choose one method)
-pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
+python -m pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
 # OR from GitHub
-pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+python -m pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
 ```
 
 **Finding Your Hermes Virtual Environment**
