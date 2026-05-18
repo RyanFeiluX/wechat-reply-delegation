@@ -17,6 +17,7 @@ setup(
         ],
         "console_scripts": [
             "hermes-wechat-reply-delegation-web = web.app:run",
+            "hermes-wechat-reply-delegation-install = plugin.installer:main",
         ]
     },
     package_data={

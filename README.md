@@ -13,19 +13,34 @@ Automatically reply to WeChat group messages on behalf of users when they are un
 
 ## Installation
 
+**Single command installation:**
+
 ```bash
+pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
+```
+
+Or install and configure separately:
+
+```bash
+# Install the package
 pip install hermes-wechat-reply-delegation-plugin
+
+# Run the installer to set up configuration
+hermes-wechat-reply-delegation-install
 ```
 
 ## Usage
 
-### As a Hermes Plugin
+### Quick Start
 
-The plugin is automatically registered with Hermes through entry points. Simply install the package and configure your Hermes agent.
+After installation, the plugin is automatically registered with Hermes. Just:
+
+1. Enable the plugin in your Hermes Gateway config by adding `wechat-reply-delegation` to the plugins list
+2. Start Hermes Gateway
 
 ### Web Dashboard
 
-Start the web dashboard using the provided CLI command:
+Start the web dashboard for visual configuration management:
 
 ```bash
 hermes-wechat-reply-delegation-web
@@ -39,10 +54,11 @@ The dashboard will be available at `http://localhost:5100`
 
 ### Configuration
 
-Copy and modify the configuration template:
+The installer automatically creates the config file at `~/.hermes/wechat-reply-delegation/config.yaml`.
 
+Edit the configuration file:
 ```bash
-cp config-template.yaml config.yaml
+nano ~/.hermes/wechat-reply-delegation/config.yaml
 ```
 
 ## Requirements

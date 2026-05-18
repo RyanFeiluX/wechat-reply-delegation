@@ -6,30 +6,32 @@ The WeChat Reply Delegation system can automatically reply to group messages on 
 
 ## Installation Steps
 
-### 1. Install Python Dependencies
+### Quick Installation (Recommended)
 
-Make sure Python 3.8 or higher is installed on your system. Run the following command to install dependencies:
+Use this single command to install and configure everything automatically:
 
 ```bash
-pip install pyyaml pytz
+pip install hermes-wechat-reply-delegation-plugin && hermes-wechat-reply-delegation-install
 ```
 
-### 2. Install the Plugin
+### Manual Installation
 
-Copy the plugin directory to the Hermes Gateway plugin directory, or install via pip:
+If you prefer to install step by step:
+
+```bash
+# Install the package from PyPI
+pip install hermes-wechat-reply-delegation-plugin
+
+# Run the installer to set up configuration
+hermes-wechat-reply-delegation-install
+```
+
+### Install from Source
 
 ```bash
 cd d:\src\wechat-reply-delegation
 pip install .
-```
-
-### 3. Configure the Plugin
-
-Create the configuration directory and copy the template:
-
-```bash
-mkdir -p ~/.hermes/wechat-reply-delegation
-cp config-template.yaml ~/.hermes/wechat-reply-delegation/config.yaml
+hermes-wechat-reply-delegation-install
 ```
 
 ## Configuration Guide

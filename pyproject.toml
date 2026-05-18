@@ -33,6 +33,7 @@ dependencies = [
 
 [project.scripts]
 hermes-wechat-reply-delegation-web = "web.app:run"
+hermes-wechat-reply-delegation-install = "plugin.installer:main"
 
 [project.entry-points."hermes.plugins"]
 wechat-reply-delegation = "plugin:ProxyReplyPlugin"
