@@ -3,3 +3,4 @@
 dist/
 hermes_wechat_reply_delegation_plugin.egg-info/
 plugin/__pycache__/
+web/__pycache__/
