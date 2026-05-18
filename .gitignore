@@ -2,3 +2,4 @@
 .idea/
 dist/
 hermes_wechat_reply_delegation_plugin.egg-info/
+plugin/__pycache__/
