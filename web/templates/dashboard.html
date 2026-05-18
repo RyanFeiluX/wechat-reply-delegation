@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ session.get('language', 'zh') }}">
+<html lang="{[ session.get('language', 'zh') ]}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if session.get('language') == 'en' %}WeChat Reply Delegation - Management Panel{% else %}WeChat Reply Delegation - 管理面板{% endif %}</title>
+    <title>{[ 'WeChat Reply Delegation - Management Panel' if session.get('language') == 'en' else 'WeChat Reply Delegation - 管理面板' ]}</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
     <style>
         * {
@@ -339,14 +339,14 @@
                     <a href="/set_language/zh" :class="{ active: currentLocale === 'zh' }">中文</a>
                     <a href="/set_language/en" :class="{ active: currentLocale === 'en' }">English</a>
                 </div>
-                <a href="/logout">{{ t('logout') }}</a>
+                <a href="/logout">{% raw %}{{ t('logout') }}{% endraw %}</a>
             </div>
         </div>
         
         <div class="container">
             <div class="tabs">
-                <button class="tab" :class="{ active: activeTab === 'global' }" @click="activeTab = 'global'">{{ t('global_config') }}</button>
-                <button class="tab" :class="{ active: activeTab === 'groups' }" @click="activeTab = 'groups'">{{ t('group_management') }}</button>
+                <button class="tab" :class="{ active: activeTab === 'global' }" @click="activeTab = 'global'">{% raw %}{{ t('global_config') }}{% endraw %}</button>
+                <button class="tab" :class="{ active: activeTab === 'groups' }" @click="activeTab = 'groups'">{% raw %}{{ t('group_management') }}{% endraw %}</button>
             </div>
             
             <div v-if="activeTab === 'global'">
@@ -442,10 +442,10 @@
                                 <td>{{ config.display_name or config.display_name_en or groupId }}</td>
                                 <td>
                                     <span class="badge" :class="config.enabled ? 'enabled' : 'disabled'">
-                                        {{ config.enabled ? t('enabled') : t('disabled') }}
+                                        {% raw %}{{ config.enabled ? t('enabled') : t('disabled') }}{% endraw %}
                                     </span>
                                 </td>
-                                <td>{{ getReplyWhenLabel(config.online_status?.reply_when) }}</td>
+                                <td>{% raw %}{{ getReplyWhenLabel(config.online_status?.reply_when) }}{% endraw %}</td>
                                 <td>{{ config.triggers.keywords | length if config.triggers and config.triggers.keywords else 0 }}</td>
                                 <td>
                                     <div class="actions">
@@ -463,7 +463,7 @@
         <div v-if="showAddModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal">
                 <div class="modal-header">
-                    <h3>{{ editingGroup ? t('edit_group') : t('add_group') }}</h3>
+                    <h3>{% raw %}{{ editingGroup ? t('edit_group') : t('add_group') }}{% endraw %}</h3>
                     <button @click="closeModal">×</button>
                 </div>
                 
@@ -550,7 +550,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>{{ currentLang === 'zh' ? t('default_reply') : 'Default Reply' }}</label>
+                    <label>{% raw %}{{ currentLang === 'zh' ? t('default_reply') : 'Default Reply' }}{% endraw %}</label>
                     <textarea v-model="currentLang === 'zh' ? newGroup.instructions.default : newGroup.instructions.default_en"></textarea>
                 </div>
                 
@@ -563,7 +563,7 @@
                         <input type="text" v-model="response.keywords_str" :placeholder="t('enter_keywords_comma')">
                     </div>
                     <div class="form-group">
-                        <label>{{ currentLang === 'zh' ? t('response_content') : 'Response' }}</label>
+                        <label>{% raw %}{{ currentLang === 'zh' ? t('response_content') : 'Response' }}{% endraw %}</label>
                         <textarea v-model="currentLang === 'zh' ? response.response : response.response_en"></textarea>
                     </div>
                     <button class="btn btn-danger" @click="removeTopicResponse(idx)">{{ t('delete') }}</button>
@@ -571,7 +571,7 @@
                 
                 <div style="display: flex; gap: 12px; margin-top: 24px;">
                     <button class="btn btn-secondary" @click="closeModal">{{ t('cancel') }}</button>
-                    <button class="btn btn-primary" @click="saveGroup">{{ editingGroup ? t('save_changes') : t('add_group') }}</button>
+                    <button class="btn btn-primary" @click="saveGroup">{% raw %}{{ editingGroup ? t('save_changes') : t('add_group') }}{% endraw %}</button>
                 </div>
                 
                 <div v-if="groupSaveStatus" class="save-status" :class="groupSaveStatus.type">
@@ -730,7 +730,7 @@
                     showAddModal: false,
                     editingGroup: null,
                     currentLang: 'zh',
-                    currentLocale: '{{ session.get("language", "zh") }}',
+                    currentLocale: '{[ session.get("language", "zh") ]}',
                     keywordInput: '',
                     newGroup: {
                         group_id: '',

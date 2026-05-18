@@ -9,6 +9,9 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('WECHAT_REPLY_DELEGATION_SECRET_KEY', 'hermes-wechat-reply-delegation-secret-key')
 CORS(app)
 
+app.jinja_env.variable_start_string = '{['
+app.jinja_env.variable_end_string = ']}'
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
