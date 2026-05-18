@@ -13,6 +13,8 @@ Automatically reply to WeChat group messages on behalf of users when they are un
 
 ## Installation
 
+### From PyPI (Recommended)
+
 **Single command installation:**
 
 ```bash
@@ -27,6 +29,20 @@ pip install hermes-wechat-reply-delegation-plugin
 
 # Run the installer to set up configuration
 hermes-wechat-reply-delegation-install
+```
+
+### Directly from GitHub
+
+**Single command installation from GitHub:**
+
+```bash
+pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+```
+
+**Install from a specific branch:**
+
+```bash
+pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
 ```
 
 ## Usage

@@ -34,6 +34,20 @@ pip install .
 hermes-wechat-reply-delegation-install
 ```
 
+### Install Directly from GitHub
+
+**Single command installation from GitHub:**
+
+```bash
+pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+```
+
+**Install from a specific branch:**
+
+```bash
+pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
+```
+
 ## Configuration Guide
 
 The configuration file is located at `~/.hermes/wechat-reply-delegation/config.yaml`. Open it with a text editor to modify.
