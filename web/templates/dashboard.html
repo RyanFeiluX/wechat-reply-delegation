@@ -439,14 +439,14 @@
                         </thead>
                         <tbody>
                             <tr v-for="(config, groupId) in groups" :key="groupId">
-                                <td>{{ config.display_name || config.display_name_en || groupId }}</td>
+                                <td>{{ config.display_name or config.display_name_en or groupId }}</td>
                                 <td>
                                     <span class="badge" :class="config.enabled ? 'enabled' : 'disabled'">
                                         {{ config.enabled ? t('enabled') : t('disabled') }}
                                     </span>
                                 </td>
                                 <td>{{ getReplyWhenLabel(config.online_status?.reply_when) }}</td>
-                                <td>{{ config.triggers?.keywords?.length || 0 }}</td>
+                                <td>{{ config.triggers.keywords | length if config.triggers and config.triggers.keywords else 0 }}</td>
                                 <td>
                                     <div class="actions">
                                         <button class="btn btn-secondary" @click="editGroup(groupId)">{{ t('edit') }}</button>
