@@ -45,4 +45,4 @@ where = ["."]
 web = ["templates/*"]
 
 [project.urls]
-"Homepage" = "https://github.com/hermes-agent/wechat-reply-delegation"
+"Homepage" = "https://github.com/RyanFeiluX/wechat-reply-delegation"

@@ -36,16 +36,18 @@ hermes-wechat-reply-delegation-install
 
 ### 直接从 GitHub 安装
 
+将代码推送到 GitHub 后，用户可以直接安装：
+
 **从 GitHub 单命令安装：**
 
 ```bash
-pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
 ```
 
 **从特定分支安装：**
 
 ```bash
-pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
 ```
 
 ## 配置说明
@@ -166,14 +168,14 @@ groups:
 
 在群聊中发送以下指令可以管理代理回复：
 
-| 指令 | 功能 |
-|------|------|
-| `/proxy status` | 查看当前群的代理配置状态 |
-| `/proxy on` | 启用当前群的代理回复 |
-| `/proxy off` | 禁用当前群的代理回复 |
-| `/proxy away` | 设置"离开"状态（开启代理） |
-| `/proxy back` | 设置"回来"状态（关闭代理） |
-| `/proxy config` | 查看当前群完整配置 |
+| 指令              | 功能             |
+| --------------- | -------------- |
+| `/proxy status` | 查看当前群的代理配置状态   |
+| `/proxy on`     | 启用当前群的代理回复     |
+| `/proxy off`    | 禁用当前群的代理回复     |
+| `/proxy away`   | 设置"离开"状态（开启代理） |
+| `/proxy back`   | 设置"回来"状态（关闭代理） |
+| `/proxy config` | 查看当前群完整配置      |
 | `/proxy reload` | 热重载配置（修改配置后生效） |
 
 ## Web 管理面板
@@ -307,6 +309,7 @@ groups:
 ### 问题 1：代理回复没有生效
 
 **检查步骤：**
+
 1. 确认配置文件中 `enabled: true`
 2. 确认群配置已正确添加
 3. 检查时间段设置是否包含当前时间
@@ -315,6 +318,7 @@ groups:
 ### 问题 2：收到 "配置错误" 提示
 
 **解决方法：**
+
 1. 使用文本编辑器检查配置文件格式
 2. 确保所有冒号后面有空格
 3. 确保缩进正确（使用空格，不要使用 Tab）
@@ -323,6 +327,7 @@ groups:
 ### 问题 3：回复过于频繁
 
 **解决方法：**
+
 1. 增加 `inactivity_timeout_minutes` 的值
 2. 设置更严格的时间段规则
 3. 添加更多关键词限制触发条件
@@ -330,5 +335,7 @@ groups:
 ## 联系支持
 
 如果您遇到问题或有建议，请通过以下方式联系：
-- 发送邮件至 support@example.com
+
+- 发送邮件至 <support@example.com>
 - 在群里 @机器人 发送问题描述
+

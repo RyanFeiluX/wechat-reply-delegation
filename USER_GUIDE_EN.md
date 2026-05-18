@@ -39,13 +39,13 @@ hermes-wechat-reply-delegation-install
 **Single command installation from GitHub:**
 
 ```bash
-pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git && hermes-wechat-reply-delegation-install
 ```
 
 **Install from a specific branch:**
 
 ```bash
-pip install git+https://github.com/hermes-agent/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
+pip install git+https://github.com/RyanFeiluX/wechat-reply-delegation.git@main && hermes-wechat-reply-delegation-install
 ```
 
 ## Configuration Guide
